@@ -14,7 +14,6 @@ def generate_files_with_problems(qs: list[dict]):
 
 if __name__ == '__main__':
     questions = get_problems_from_leetcode(
-        'https://leetcode.cn/studyplan/top-interview-150/',
-        [2,6])
-    generate_files_with_problems(questions)
-    print(questions)
+        'https://leetcode.cn/studyplan/top-interview-150/', [0, 151])
+    generate_files_with_problems(questions[95:100]) # next [101:106]
+    # print(len(questions))

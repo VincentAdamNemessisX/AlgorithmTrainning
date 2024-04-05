@@ -14,3 +14,21 @@
 # 提示：
 #  * 1 <= prices.length <= 105
 #  * 0 <= prices[i] <= 104
+from typing import List
+
+
+class Solution:
+    @staticmethod
+    def maxProfit(prices: List[int]) -> int:
+        min_price = float('inf')  # 设置一个很高的初始值
+        max_profit = 0
+        for price in prices:
+            if price < min_price:
+                min_price = price  # 更新最低购买价格
+            elif price - min_price > max_profit:
+                max_profit = price - min_price  # 更新最大利润
+        return max_profit
+
+
+test_list = [2, 4, 1]
+print(Solution.maxProfit(prices=test_list))

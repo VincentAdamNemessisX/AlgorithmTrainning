@@ -20,3 +20,20 @@
 # 提示：
 #  * 1 <= prices.length <= 3 * 104
 #  * 0 <= prices[i] <= 104
+from typing import List
+
+
+class Solution:
+
+    @staticmethod
+    def maxProfit(prices: List[int]) -> int:
+        max_profit = 0
+        for i in range(1, len(prices)):
+            if prices[i] > prices[i - 1]: # 发现涨幅，则卖出
+                max_profit += prices[i] - prices[i - 1] # 卖出，累加利润
+        return max_profit
+
+
+
+prices = [7, 1, 5, 3, 6, 4]
+print(Solution().maxProfit(prices))
