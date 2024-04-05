@@ -24,3 +24,27 @@
 #  * 1 <= nums.length <= 3 * 104
 #  * -104 <= nums[i] <= 104
 #  * nums 已按升序排列
+from typing import List
+
+
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        """
+        :param nums: a given list
+        :return: the nums length
+        """
+        for i in range(len(nums)):
+            repeat_times = 1
+            for j in range(i + 1, len(nums)):
+                if nums[i] == nums[j]:
+                    repeat_times += 1
+            if repeat_times > 2:
+                for _ in range(repeat_times - 2):
+                    nums.pop(i + _)
+                    i -= 1
+        return len(nums)
+
+
+test_list = [[1, 1, 1, 2, 2, 3], [0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3]]
+print(Solution().removeDuplicates(test_list[1]))
+print(test_list[1])
