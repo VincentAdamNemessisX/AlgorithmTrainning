@@ -9,11 +9,59 @@
 # 开往 1 号加油站，此时油箱有 7 - 3 + 2 = 6 升汽油
 # 开往 2 号加油站，此时油箱有 6 - 4 + 3 = 5 升汽油
 # 开往 3 号加油站，你需要消耗 5 升汽油，正好足够你返回到 3 号加油站。
-# 因此，3 可为起始索引。# 示例 2:# 输入: gas = [2,3,4], cost = [3,4,3]
-# 输出: -1# 解释:# 你不能从 0 号或 1 号加油站出发，因为没有足够的汽油可以让你行驶到下一个加油站。
+# 因此，3 可为起始索引。
+# 示例 2:# 输入: gas = [2,3,4], cost = [3,4,3]
+# 输出: -1#
+# 解释:# 你不能从 0 号或 1 号加油站出发，
+# 因为没有足够的汽油可以让你行驶到下一个加油站。
 # 我们从 2 号加油站出发，可以获得 4 升汽油。 此时油箱有 = 0 + 4 = 4 升汽油
 # 开往 0 号加油站，此时油箱有 4 - 3 + 2 = 3 升汽油
 # 开往 1 号加油站，此时油箱有 3 - 3 + 3 = 3 升汽油
 # 你无法返回 2 号加油站，因为返程需要消耗 4 升汽油，但是你的油箱只有 3 升汽油。
-# 因此，无论怎样，你都不可能绕环路行驶一周。# 提示:#  * gas.length == n#  * cost.length == n#  * 1 <= n <= 105#  * 0 <= gas[i], cost[i] <= 104
+# 因此，无论怎样，你都不可能绕环路行驶一周。
+# 提示:#  * gas.length == n
+#  * cost.length == n
+#  * 1 <= n <= 105
+#  * 0 <= gas[i], cost[i] <= 104
+from typing import List
 
+from tools.tool import timing_decorator
+
+
+class Solution:
+
+    @timing_decorator
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        """
+        :param gas: 加油站及可获得油量
+        :param cost: 到达对应加油站消耗的油量
+        :return:
+        """
+        n = len(gas)
+        for i in range(n):
+            if gas[i] < cost[i]:
+                continue
+            else:
+                # 油量足够，从当前加油站出发
+                # 剩余油量
+                rest = gas[i] - cost[i]
+                # 下一个加油站
+                next_i = i + 1
+                # 未再次抵达起点，循环
+                while next_i != i:
+                    if rest < cost[next_i]:
+                        break
+                    else:
+                        rest += gas[next_i] - cost[next_i]
+                    next_i = next_i + 1
+                if next_i == i - 1:
+                    return i
+                else:
+                    continue
+        return -1
+
+
+# gas, cost = [1, 2, 3, 4, 5], [3, 4, 5, 1, 2]
+# gas, cost = [2, 3, 4], [3, 4, 3]
+gas, cost = [5, 1, 2, 3, 4], [4, 4, 1, 5, 1]
+print(Solution().canCompleteCircuit(gas, cost))

@@ -7,3 +7,33 @@
 #      第三个孩子只得到 1 颗糖果，这满足题面中的两个条件。
 # 提示：#  * n == ratings.length#  * 1 <= n <= 2 * 104#  * 0 <= ratings[i] <= 2 * 104
 
+from typing import List
+
+from tools.tool import timing_decorator
+
+
+class Solution:
+
+    @timing_decorator
+    def candy(self, ratings: List[int]) -> int:
+        n = len(ratings)
+        candy_list = [1] * n
+
+        # 从左到右遍历，确保右边评分高的孩子获得更多糖果
+        for i in range(1, n):
+            if ratings[i] > ratings[i - 1]:
+                candy_list[i] = candy_list[i - 1] + 1
+
+        # 从右到左遍历，确保左边评分高的孩子获得更多糖果
+        for i in range(n - 2, -1, -1):
+            if ratings[i] > ratings[i + 1]:
+                candy_list[i] = max(candy_list[i], candy_list[i + 1] + 1)
+        print(candy_list)
+        return sum(candy_list)
+
+
+# ratings = [1, 0, 2]
+ratings = [1, 2, 2]
+# ratings = [1, 3, 2, 2, 1]
+# ratings = [1, 2, 87, 87, 87, 2, 1]
+print(Solution().candy(ratings))
