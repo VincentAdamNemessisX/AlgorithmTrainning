@@ -19,4 +19,3 @@
 # 提示：#  * -231 <= val <= 231 - 1
 #  * 最多调用 insert、remove 和 getRandom 函数 2 * 105 次
 #  * 在调用 getRandom 方法时，数据结构中 至少存在一个 元素。
-

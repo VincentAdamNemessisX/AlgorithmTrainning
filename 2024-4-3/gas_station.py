@@ -24,41 +24,31 @@
 #  * 1 <= n <= 105
 #  * 0 <= gas[i], cost[i] <= 104
 from typing import List
-
 from tools.tool import timing_decorator
 
 
 class Solution:
-
     @timing_decorator
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        """
-        :param gas: 加油站及可获得油量
-        :param cost: 到达对应加油站消耗的油量
-        :return:
-        """
         n = len(gas)
+        total_gas = 0  # 总剩余油量
+        current_gas = 0  # 当前剩余油量
+        start_station = 0  # 起始加油站
+
         for i in range(n):
-            if gas[i] < cost[i]:
-                continue
-            else:
-                # 油量足够，从当前加油站出发
-                # 剩余油量
-                rest = gas[i] - cost[i]
-                # 下一个加油站
-                next_i = i + 1
-                # 未再次抵达起点，循环
-                while next_i != i:
-                    if rest < cost[next_i]:
-                        break
-                    else:
-                        rest += gas[next_i] - cost[next_i]
-                    next_i = next_i + 1
-                if next_i == i - 1:
-                    return i
-                else:
-                    continue
-        return -1
+            total_gas += gas[i] - cost[i]
+            current_gas += gas[i] - cost[i]
+
+            # 如果当前剩余油量小于0，说明从当前起点出发不行，需要重新选择下一个加油站作为起点
+            if current_gas < 0:
+                current_gas = 0
+                start_station = i + 1
+
+        # 如果总剩余油量小于0，说明无法绕环一周
+        if total_gas < 0:
+            return -1
+        else:
+            return start_station
 
 
 # gas, cost = [1, 2, 3, 4, 5], [3, 4, 5, 1, 2]

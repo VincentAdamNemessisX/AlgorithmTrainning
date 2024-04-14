@@ -6,4 +6,28 @@
 #      由于研究者有 3 篇论文每篇 至少 被引用了 3 次，其余两篇论文每篇被引用 不多于 3 次，所以她的 h 指数是 3。
 # 示例 2：# 输入：citations = [1,3,1]# 输出：1# 提示：#  * n == citations.length
 #  * 1 <= n <= 5000#  * 0 <= citations[i] <= 1000
+from typing import List
 
+from tools.tool import timing_decorator
+
+
+class Solution:
+    @timing_decorator
+    def hIndex(self, citations: List[int]) -> int:
+        n = len(citations)
+        cnt = [0] * (n + 1)
+        for c in citations:
+            cnt[min(c, n)] += 1  # 引用次数 > n，等价于引用次数为 n
+        s = 0
+        for i in range(n, -1, -1):  # i=0 的时候，s>=i 一定成立
+            s += cnt[i]
+            if s >= i:  # 说明有至少 i 篇论文的引用次数至少为 i
+                return i
+
+
+# citations = [3, 0, 6, 1, 5]
+# citations = [100]
+# citations = [7, 4]
+# citations = [1, 3, 1]
+citations = [0, 1, 0]
+print(Solution().hIndex(citations))
